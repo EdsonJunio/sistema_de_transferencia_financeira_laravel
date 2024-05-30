@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
+
+namespace App\Models;
+
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model implements Authenticatable, AuthorizableContract
+class Merchant extends Model implements Authenticatable, AuthorizableContract
 {
-    use AuthenticatableTrait, Authorizable;
+    use HasApiTokens, HasFactory, Notifiable, AuthenticatableTrait, Authorizable;
 
     public $incrementing = false;
 
