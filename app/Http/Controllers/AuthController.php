@@ -37,7 +37,13 @@ class AuthController extends Controller
             return response()->json(['errors' => ['main' => 'Wrong credentials']], 401);
         }
 
-        return 'O response escolhido é ' . $provider;
+        $token = $model->createToken($provider);
+
+        return response()->json([
+            'token' => $token,
+            'provider' => $provider,
+            'expires_at' => $token
+        ]);
     }
 
     public function getProvider(string $provider): Authenticatable
