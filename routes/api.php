@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/auth/{provider}', [AuthController::class, 'postAuthenticate']);
+Route::post('/auth/{provider}', [AuthController::class, 'postAuthenticate'])->name('authenticate');
