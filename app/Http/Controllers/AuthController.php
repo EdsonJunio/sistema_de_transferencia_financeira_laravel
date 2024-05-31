@@ -6,6 +6,7 @@ use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -29,6 +30,10 @@ class AuthController extends Controller
         $model = $provider->where('email', '=', $request->input('email'))->first();
 
         if(!$model) {
+            return response()->json(['errors' => ['main' => 'Wrong credentials']], 401);
+        }
+
+        if (!Hash::check($request->input('password'), $model->password)) {
             return response()->json(['errors' => ['main' => 'Wrong credentials']], 401);
         }
 
