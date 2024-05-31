@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model implements Authenticatable, AuthorizableContract
 {
-    use AuthenticatableTrait, Authorizable;
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, AuthenticatableTrait, Authorizable;
 
     public $incrementing = false;
 

@@ -16,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Merchant extends Model implements Authenticatable, AuthorizableContract
 {
-    use HasApiTokens, HasFactory, Notifiable, AuthenticatableTrait, Authorizable;
+    use HasApiTokens, AuthenticatableTrait, Authorizable, HasFactory, Notifiable;
 
     public $incrementing = false;
 

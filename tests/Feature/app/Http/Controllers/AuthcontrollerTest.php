@@ -44,4 +44,16 @@ class AuthcontrollerTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson(['errors' => ['main' => 'Wrong credentials']]);
     }
+
+    public function testUserCanAuthenticateWithCorrectCredentials()
+    {
+        $user = User::factory()->create();
+        $payload = [
+            'email' => $user->email,
+            'password' => 'password123',
+        ];
+        $response = $this->post(route('authenticate', ['provider' => 'user']), $payload);
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['token', 'provider', 'expires_at']);
+    }
 }
