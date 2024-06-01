@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class AuthcontrollerTest extends TestCase
 {
-    use DatabaseMigrations;
 
     public function testUserCannotAuthenticateWithTheWrongSupplier()
     {
