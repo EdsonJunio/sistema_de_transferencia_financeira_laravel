@@ -14,12 +14,12 @@ class AuthcontrollerTest extends TestCase
     {
         $payload = [
             'email' => 'test@test.com',
-            'password' => 'password',
+            'password' => 'testepassword',
         ];
         $response = $this->post(route('authenticate', ['provider' => 'unknownProvider']), $payload);
 
         $response->assertStatus(422);
-        $response->assertJson(['errors' => ['main' => 'Wrong provider']]);
+        $response->assertJson(['errors' => ['main' => 'Invalid provider']]);
     }
 
     public function testUserShouldBeDeniedIfNotRegistered()
@@ -57,3 +57,4 @@ class AuthcontrollerTest extends TestCase
         $response->assertJsonStructure(['token', 'provider', 'expires_at']);
     }
 }
+
