@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\app\Http\Controllers;
 
+use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase;
@@ -44,7 +45,6 @@ class TransactionControllerTest extends TestCase
 
     public function testUserShouldBeExistingOnProviderToTransfer()
     {
-
         $user = User::factory()->create();
         $payload = [
             'provider' => 'user',
@@ -56,5 +56,45 @@ class TransactionControllerTest extends TestCase
         $request->assertStatus(404);
     }
 
+    public function testUserShoudBeAvalidUserToTransfer()
+    {
+        $user = User::factory()->create();
+        $payload = [
+            'provider' => 'user',
+            'payee_id' => 123,
+            'amount' => 100,
+        ];
+        $request = $this->actingAs($user, 'users')
+            ->post(route('postTransaction'), $payload);
+        $request->assertStatus(404);
+    }
+
+    public function testUserMerchantShouldNotTransfer()
+    {
+        $merchant = Merchant::factory()->create();
+        $payload = [
+            'provider' => 'user',
+            'payee_id' => 123,
+            'amount' => 100,
+        ];
+        $request = $this->actingAs($merchant, 'merchant')
+            ->post(route('postTransaction'), $payload);
+        $request->assertStatus(401);
+    }
+
+    public function testUsershouldHaveMoneyToPerformSomeTransaction()
+    {
+        $userPayer = User::factory()->create();
+        $userPayer->wallet()->create(['balance' => 0]);
+
+        $payload = [
+            'provider' => 'user',
+            'payee_id' => $userPayer->id,
+            'amount' => 100,
+        ];
+        $request = $this->actingAs($userPayer, 'users')
+            ->post(route('postTransaction'), $payload);
+        $request->assertStatus(422);
+    }
 
 }

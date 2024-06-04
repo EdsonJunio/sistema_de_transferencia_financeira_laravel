@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Exceptions\InvalidDataProviderException;
+use App\Exceptions\NoMoneyAtTheMomentException;
+use App\Exceptions\TransactionDeniedException;
 use App\Http\Controllers\Controller;
 use App\Repositories\Transaction\TransactionRepository;
 use Illuminate\Http\Request;
@@ -28,10 +30,11 @@ class TransactionsController extends Controller
 
         try {
             $result = $this->repository->handle($fields);
-        } catch (InvalidDataProviderException $exception) {
+        } catch (InvalidDataProviderException|NoMoneyAtTheMomentException $exception) {
             return response()->json(['errors' => ['main' => $exception->getMessage()]], 422);
+        } catch (TransactionDeniedException $exception) {
+            return response()->json(['errors' => ['main' => $exception->getMessage()]], 401);
         }
-
 
         return response()->json($result);
     }
