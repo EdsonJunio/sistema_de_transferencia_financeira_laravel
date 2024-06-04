@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\Transactions\TransactionsController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,5 @@ Route::get('/', function () {
 Route::post('/auth/{provider}', [AuthController::class, 'postAuthenticate'])->name('authenticate');
 
 Route::middleware('auth:sanctum')->get('/users/me', [MeController::class, 'getMe']);
+
+Route::post('/transactions', [TransactionsController::class, 'postTransaction'])->name('postTransaction');
