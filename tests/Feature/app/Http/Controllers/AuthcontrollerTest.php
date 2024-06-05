@@ -3,7 +3,6 @@
 namespace Tests\Feature\app\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class AuthcontrollerTest extends TestCase
