@@ -12,9 +12,8 @@ return new class extends Migration {
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wallet_id')->references('id')->on('wallets')->cascadeOnDelete();
-            $table->integer('payer_id');
-            $table->integer('payee_id');
+            $table->integer('payer_wallet_id')->references('id')->on('wallets');
+            $table->integer('payee_wallet_id')->references('id')->on('wallets');
             $table->decimal('amount');
             $table->timestamps();
         });
